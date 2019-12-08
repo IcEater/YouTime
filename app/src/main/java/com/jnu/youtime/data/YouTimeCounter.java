@@ -1,26 +1,35 @@
 package com.jnu.youtime.data;
 
+import android.graphics.Bitmap;
+
 public class YouTimeCounter {
     private long time;
-    private String name;
+    private Bitmap image;
+    private String title;
     private String note;
 
     public long getTime() {
         return time;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getNote() {
         return note;
     }
-    YouTimeCounter(long time, String name, String note)
+    public Bitmap getImage()
+    {
+        return image;
+    }
+
+    public YouTimeCounter(long time, String title, String note, Bitmap image)
     {
         this.time=time;
-        this.name=name;
+        this.title=title;
         this.note=note;
+        this.image=image;
     }
 
 }

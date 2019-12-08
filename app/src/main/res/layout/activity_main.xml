@@ -18,7 +18,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:scaleType="centerCrop"
+            android:background="@color/colorLucency"
+            android:src="@mipmap/iceater_icon_menu"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="28dp"
+
+            android:contentDescription="TODO">
+
+        </ImageButton>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/app_name"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="104dp"
+            tools:layout_editor_absoluteY="18dp">
+
+        </TextView>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
@@ -33,7 +58,7 @@
             android:layout_height="match_parent">
 
             <ListView
-                android:id="@+id/NavigationListView"
+                android:id="@+id/mainListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout_editor_absoluteX="16dp"
@@ -44,18 +69,32 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
-            android:layout_width="240dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="start">
 
-            <!--添加脚布局-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_gravity="bottom"
-                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:gravity="top"
                 android:orientation="horizontal"
                 tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:id="@+id/navigationImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@mipmap/testimage" />
+
+                <ListView
+                    android:id="@+id/navigationListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteY="89dp">
+
+                </ListView>
 
             </LinearLayout>
 

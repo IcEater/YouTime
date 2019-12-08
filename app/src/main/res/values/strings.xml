@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">You Time</string>
+    <string name="app_name">YouTime</string>
+    <string name="app_name_with_space">You Time</string>
 </resources>
