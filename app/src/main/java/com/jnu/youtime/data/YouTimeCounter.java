@@ -7,7 +7,7 @@ public class YouTimeCounter {
     private Bitmap image;
     private String title;
     private String note;
-
+    public YouTimeCounter(){}
     public long getTime() {
         return time;
     }

@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -21,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        init();
+        init();
     }
     private void init()
     {
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         FAB=findViewById(R.id.floatingActionButton);
         Counters=new ArrayList<>();
 
+        Log.v("orii", "herrrrrrrrre");
         addTestTimeCounter();
 
         MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(MainActivity.this,"youtime_db",2);
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 //        Cursor cursor = sqliteDatabase.query("user", new String[] { "id",
 //                "name" }, "id=?", new String[] { "1" }, null, null, null);
 
-        Cursor cursor = sqliteDatabase.query("user", new String[] {"id"},
+        Cursor cursor = sqliteDatabase.query("MainList", new String[] {"id", "Time", "Tittle", "Note", "Image"},
                 null, new String[] {}, null, null, null);
         // 参数1：（String）表名
         // 参数2：（String[]）要查询的列名
@@ -67,11 +71,14 @@ public class MainActivity extends AppCompatActivity {
         // 参数5：（String）对查询的结果进行分组
         // 参数6：（String）对分组的结果进行限制
         // 参数7：（String）对查询的结果进行排序
-        if(cursor.moveToNext())
+        while(cursor.moveToNext())
         {
-            byte[] msg = cursor.getBlob(cursor.getColumnIndex("id"));
-            System.out.println(msg);
-            Counters=getInfoAListFromBytes(msg);
+            Counters.add(new YouTimeCounter(
+                    cursor.getLong(cursor.getColumnIndex("Time")),
+                    cursor.getString(cursor.getColumnIndex("Tittle")),
+                    cursor.getString(cursor.getColumnIndex("Note")),
+                    bytetoBitmap(cursor.getBlob(cursor.getColumnIndex("Image")))
+                    ));
         }
 
     }
@@ -82,51 +89,43 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.testimage);
         YouTimeCounter test=new YouTimeCounter(1579881600, "NEW YEAR", "It is a test", bmp);
 
+        Counters.add(test);
+        insertToDB(Counters);
+        Counters.clear();
+    }
+    public void insertToDB(ArrayList<YouTimeCounter> list)
+    {
         MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(MainActivity.this,"youtime_db",2);
         SQLiteDatabase  sqliteDatabase1 = dbHelper1.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-
-
-        Counters.add(test);
-        values.put("id", getInfoBytesFromAList(Counters));
-        Counters.clear();
-
-        sqliteDatabase1.insert("user", null, values);
+        long b;
+        for(int i=0;i <list.size();i ++)
+        {
+            ContentValues values = new ContentValues();
+            values.put("Id", i);
+            values.put("Time", Counters.get(i).getTime());
+            values.put("Tittle", Counters.get(i).getTitle());
+            values.put("Note", Counters.get(i).getNote());
+            values.put("Image", bitmapToByte(Counters.get(i).getImage()));
+            b=sqliteDatabase1.insert("MainList", null, values);
+        }
         sqliteDatabase1.close();
     }
-    public byte[] getInfoBytesFromAList(ArrayList<YouTimeCounter> list){
-        ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            objectOutputStream = new ObjectOutputStream(arrayOutputStream);
-            objectOutputStream.writeObject(list);
-            objectOutputStream.flush();
-            byte[] data = arrayOutputStream.toByteArray();
-            objectOutputStream.close();
-            arrayOutputStream.close();
-            System.out.println("data is here:");
-            System.out.println(data);
-            return data;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public byte[] bitmapToByte(Bitmap b)
+    {
+        int bytes = b.getByteCount();
+        ByteBuffer buffer = ByteBuffer.allocate(bytes);
+        b.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+        byte[] data = buffer.array(); //Get the bytes array of the bitmap
+        return data;
     }
 
-    private ArrayList<YouTimeCounter> getInfoAListFromBytes(byte[] bytes)
+    public Bitmap bytetoBitmap(byte[] b)
     {
-        ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(bytes);
-        try {
-            ObjectInputStream inputStream = new ObjectInputStream(arrayInputStream);
-            ArrayList<YouTimeCounter> list = (ArrayList<YouTimeCounter>) inputStream.readObject();
-            inputStream.close();
-            arrayInputStream.close();
-            return list;
-        }catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
+        Bitmap pic;
+        if (b.length != 0) {
+            pic=BitmapFactory.decodeByteArray(b, 0, b.length);
+            return pic;
+        }else return null;
     }
 }
