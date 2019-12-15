@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
     {
         Resources res = getResources();
         Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.testimage);
+
+        Bitmap te=bytetoBitmap(bitmapToByte(R.mipmap.testimage));
         YouTimeCounter test=new YouTimeCounter(1579881600, "NEW YEAR", "It is a test", bmp);
 
         Counters.add(test);
@@ -98,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(MainActivity.this,"youtime_db",2);
         SQLiteDatabase  sqliteDatabase1 = dbHelper1.getWritableDatabase();
 
+
         long b;
         for(int i=0;i <list.size();i ++)
         {
@@ -106,18 +110,22 @@ public class MainActivity extends AppCompatActivity {
             values.put("Time", Counters.get(i).getTime());
             values.put("Tittle", Counters.get(i).getTitle());
             values.put("Note", Counters.get(i).getNote());
-            values.put("Image", bitmapToByte(Counters.get(i).getImage()));
+//            values.put("Image", bitmapToByte(Counters.get(i).getImage()));
             b=sqliteDatabase1.insert("MainList", null, values);
         }
         sqliteDatabase1.close();
     }
-    public byte[] bitmapToByte(Bitmap b)
+    public byte[] bitmapToByte(int id)
     {
-        int bytes = b.getByteCount();
-        ByteBuffer buffer = ByteBuffer.allocate(bytes);
-        b.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
-        byte[] data = buffer.array(); //Get the bytes array of the bitmap
-        return data;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(id)).getBitmap();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+//        int bytes = b.getByteCount();
+//        ByteBuffer buffer = ByteBuffer.allocate(bytes);
+//        b.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+//        byte[] data = buffer.array(); //Get the bytes array of the bitmap
+//        return data;
     }
 
     public Bitmap bytetoBitmap(byte[] b)
