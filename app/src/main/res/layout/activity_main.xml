@@ -24,13 +24,13 @@
             android:id="@+id/imageButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:scaleType="centerCrop"
             android:background="@color/colorLucency"
+            android:contentDescription="TODO"
+            android:scaleType="centerCrop"
             android:src="@mipmap/iceater_icon_menu"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="28dp"
 
-            android:contentDescription="TODO">
+            tools:layout_editor_absoluteY="28dp">
 
         </ImageButton>
 
@@ -54,15 +54,15 @@
         tools:openDrawer="start">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <ListView
                 android:id="@+id/mainListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="89dp">
+                android:layout_marginTop="50dp"
+                app:layout_constraintTop_toTopOf="parent">
 
             </ListView>
 

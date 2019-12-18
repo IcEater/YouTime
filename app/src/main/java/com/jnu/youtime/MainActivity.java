@@ -12,9 +12,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jnu.youtime.data.YouTimeCounter;
@@ -25,11 +29,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     ListView mainListView;
-    ListView navigationListview;
+    ListView navigationListView;
     ImageButton imageButton;
     FloatingActionButton FAB;
     ArrayList<YouTimeCounter> Counters;
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         deleteDatabase("youtime_db");
 
         mainListView=findViewById(R.id.mainListView);
-        navigationListview=findViewById(R.id.navigationListView);
+        navigationListView=findViewById(R.id.navigationListView);
         imageButton=findViewById(R.id.imageButton);
         FAB=findViewById(R.id.floatingActionButton);
         Counters=new ArrayList<>();
@@ -81,6 +91,42 @@ public class MainActivity extends AppCompatActivity {
                     ));
         }
         cursor.close();
+
+        SimpleAdapter adapter=setAdapter(Counters);
+        mainListView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    private SimpleAdapter setAdapter(ArrayList<YouTimeCounter> Counters)
+    {
+        List<Map<String,Object>> lists;
+        lists = new ArrayList<>();
+        for(int i=0; i<Counters.size(); i++)
+        {
+            Map<String,Object> map =new HashMap<>();
+            map.put("image", Counters.get(i).getImage());
+            map.put("title", Counters.get(i).getTitle());
+            map.put("time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(Counters.get(i).getTime() * 1000)));
+            map.put("note", Counters.get(i).getNote());
+            lists.add(map);
+        }
+        String [] from=new String[]{"image", "title", "time", "note"};
+        int[] ids=new int[]{R.id.mainListImage, R.id.mainListTitle, R.id.mainListTime, R.id.mainListNote};
+        SimpleAdapter adapter= new SimpleAdapter(MainActivity.this, lists, R.layout.main_sublayout, from, ids);
+        adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object data,
+                                        String textRepresentation) {
+                // TODO Auto-generated method stub
+                if(view instanceof ImageView && data instanceof Bitmap){
+                    ImageView i = (ImageView)view;
+                    i.setImageBitmap((Bitmap) data);
+                    return true;
+                }
+                return false;
+            }
+        });
+        return adapter;
     }
 
     private void addTestTimeCounter()
@@ -88,8 +134,9 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.testimage);
 
-        YouTimeCounter test=new YouTimeCounter(1579881600, "NEW YEAR", "It is a test", bmp);
+        YouTimeCounter test=new YouTimeCounter(1579881600+3600*8, "NEW YEAR", "It is a test", bmp);
 
+        Counters.add(test);
         Counters.add(test);
         insertToDB(Counters);
         Counters.clear();
