@@ -92,9 +92,41 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        SimpleAdapter adapter=setAdapter(Counters);
-        mainListView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        /* set a adapter for the mainListView */
+        SimpleAdapter adapterMain=setAdapter(Counters);
+        mainListView.setAdapter(adapterMain);
+        adapterMain.notifyDataSetChanged();
+        /*  */
+
+        /*set a adapter for the navigationListView */
+        List<Map<String,Object>> navigationLists;
+        navigationLists = new ArrayList<>();
+        Map<String,Object> map =new HashMap<>();
+        map.put("image", R.mipmap.iceater_icon_home);
+        map.put("text", "首页 ");
+        navigationLists.add(map);
+        map=new HashMap<>();
+
+        map.put("image", R.mipmap.iceater_icon_color);
+        map.put("text", "主题色 ");
+        navigationLists.add(map);
+        map=new HashMap<>();
+
+        map.put("image", R.mipmap.iceater_icon_option);
+        map.put("text", "设置 ");
+        navigationLists.add(map);
+
+        String []navigationListViewFrom=new String []{"image", "text"};
+        int []navigationListViewTo=new int []{R.id.navigationImage, R.id.navigationText};
+
+        SimpleAdapter adapterNavigation=new SimpleAdapter(
+                MainActivity.this,
+                navigationLists,
+                R.layout.navigation_sublayout,
+                navigationListViewFrom,
+                navigationListViewTo);
+        navigationListView.setAdapter(adapterNavigation);
+        /*  */
     }
 
     private SimpleAdapter setAdapter(ArrayList<YouTimeCounter> Counters)
@@ -138,6 +170,16 @@ public class MainActivity extends AppCompatActivity {
 
         Counters.add(test);
         Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
+        Counters.add(test);
         insertToDB(Counters);
         Counters.clear();
     }
@@ -145,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
     {
         MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(MainActivity.this,"youtime_db",2);
         SQLiteDatabase  sqliteDatabase1 = dbHelper1.getWritableDatabase();
-
 
         for(int i=0;i <list.size();i ++)
         {

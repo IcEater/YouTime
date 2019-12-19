@@ -78,22 +78,18 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:gravity="top"
-                android:orientation="horizontal"
-                tools:ignore="MissingConstraints">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/navigationImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="150dp"
                     app:srcCompat="@mipmap/testimage" />
 
                 <ListView
                     android:id="@+id/navigationListView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:layout_editor_absoluteX="16dp"
-                    tools:layout_editor_absoluteY="89dp">
-
+                    android:layout_height="match_parent">
                 </ListView>
 
             </LinearLayout>
@@ -111,16 +107,16 @@
         android:layout_marginBottom="30dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@mipmap/iceater_icon_addition"
         android:visibility="visible"
-        app:backgroundTint="#FFFFFF"
+        app:backgroundTint="#DD0000"
         app:elevation="18dp"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="40dp"
         app:pressedTranslationZ="22dp"
-        app:rippleColor="#DDDDDD" />
+        app:rippleColor="#550000" />
 
 
 
