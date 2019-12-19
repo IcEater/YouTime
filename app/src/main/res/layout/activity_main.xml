@@ -9,30 +9,17 @@
 
 
     <androidx.appcompat.widget.Toolbar
+        android:clickable="false"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorSkyBlue"
+        android:background="@color/colorRed"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@color/colorLucency"
-            android:contentDescription="TODO"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/iceater_icon_menu"
-            tools:layout_editor_absoluteX="16dp"
-
-            tools:layout_editor_absoluteY="28dp">
-
-        </ImageButton>
 
         <TextView
             android:layout_width="match_parent"
@@ -46,12 +33,13 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/mainDrawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:openDrawer="start">
+        tools:openDrawer="left">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -69,9 +57,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
+            android:id="@+id/mainNavigationVIew"
             android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:layout_gravity="start">
+            android:layout_gravity="left">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,8 +78,7 @@
                 <ListView
                     android:id="@+id/navigationListView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </ListView>
+                    android:layout_height="match_parent"></ListView>
 
             </LinearLayout>
 
@@ -109,14 +97,14 @@
         android:focusable="true"
         android:src="@mipmap/iceater_icon_addition"
         android:visibility="visible"
-        app:backgroundTint="#DD0000"
+        app:backgroundTint="@color/colorRed"
         app:elevation="18dp"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="40dp"
         app:pressedTranslationZ="22dp"
-        app:rippleColor="#550000" />
+        app:rippleColor="@color/colorDarkRed" />
 
 
 

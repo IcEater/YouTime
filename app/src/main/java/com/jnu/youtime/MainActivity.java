@@ -1,8 +1,10 @@
 package com.jnu.youtime;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +13,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.service.autofill.OnClickAction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
@@ -19,6 +23,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jnu.youtime.data.YouTimeCounter;
@@ -40,9 +47,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     ListView mainListView;
     ListView navigationListView;
-    ImageButton imageButton;
-    FloatingActionButton FAB;
+    FloatingActionButton fab;
     ArrayList<YouTimeCounter> Counters;
+    DrawerLayout drawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +58,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
     }
-    private void init()
-    {
+    private void init() {
         deleteDatabase("youtime_db");
 
+        drawerLayout=findViewById(R.id.mainDrawerLayout);
         mainListView=findViewById(R.id.mainListView);
         navigationListView=findViewById(R.id.navigationListView);
-        imageButton=findViewById(R.id.imageButton);
-        FAB=findViewById(R.id.floatingActionButton);
+        fab=findViewById(R.id.floatingActionButton);
         Counters=new ArrayList<>();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this, addCounterActivity.class);
+                intent.putExtra("numOfCounter", Counters.size());
+                startActivity(intent);
+            }
+        });
 
         addTestTimeCounter();
 
         MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(MainActivity.this,"youtime_db",2);
-
         SQLiteDatabase sqliteDatabase = dbHelper.getWritableDatabase();
 
         // 调用SQLiteDatabase对象的query方法进行查询
@@ -81,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
         // 参数5：（String）对查询的结果进行分组
         // 参数6：（String）对分组的结果进行限制
         // 参数7：（String）对查询的结果进行排序
-        while(cursor.moveToNext())
-        {
+        while(cursor.moveToNext()) {
             Counters.add(new YouTimeCounter(
                     cursor.getLong(cursor.getColumnIndex("Time")),
                     cursor.getString(cursor.getColumnIndex("Tittle")),
@@ -127,10 +141,10 @@ public class MainActivity extends AppCompatActivity {
                 navigationListViewTo);
         navigationListView.setAdapter(adapterNavigation);
         /*  */
+
     }
 
-    private SimpleAdapter setAdapter(ArrayList<YouTimeCounter> Counters)
-    {
+    private SimpleAdapter setAdapter(ArrayList<YouTimeCounter> Counters) {
         List<Map<String,Object>> lists;
         lists = new ArrayList<>();
         for(int i=0; i<Counters.size(); i++)
@@ -161,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
         return adapter;
     }
 
-    private void addTestTimeCounter()
-    {
+    private void addTestTimeCounter() {
         Resources res = getResources();
         Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.testimage);
 
@@ -183,8 +196,7 @@ public class MainActivity extends AppCompatActivity {
         insertToDB(Counters);
         Counters.clear();
     }
-    public void insertToDB(ArrayList<YouTimeCounter> list)
-    {
+    public void insertToDB(ArrayList<YouTimeCounter> list) {
         MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(MainActivity.this,"youtime_db",2);
         SQLiteDatabase  sqliteDatabase1 = dbHelper1.getWritableDatabase();
 
@@ -200,8 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
         sqliteDatabase1.close();
     }
-    public byte[] bitmapToByte(Bitmap bitmap)
-    {
+    public byte[] bitmapToByte(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
@@ -212,8 +223,7 @@ public class MainActivity extends AppCompatActivity {
 //        return data;
     }
 
-    public Bitmap bytetoBitmap(byte[] b)
-    {
+    public Bitmap bytetoBitmap(byte[] b) {
         Bitmap pic;
         if (b.length != 0) {
             pic=BitmapFactory.decodeByteArray(b, 0, b.length);

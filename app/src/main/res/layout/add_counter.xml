@@ -4,4 +4,114 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addLayoutBackFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@mipmap/iceater_icon_back_white"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorRed"
+        app:elevation="18dp"
+        app:fabSize="mini"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="35dp"
+        app:pressedTranslationZ="22dp"
+        app:rippleColor="@color/colorDarkRed" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addLayoutConfirmFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@mipmap/iceater_icon_tick_white"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorRed"
+        app:elevation="18dp"
+        app:fabSize="mini"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="25dp"
+        app:pressedTranslationZ="22dp"
+        app:rippleColor="@color/colorDarkRed" />
+
+    <ImageView
+        android:id="@+id/addLayoutImageView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorGRAYWhite" />
+
+    <ListView
+        android:id="@+id/add_layout_listview"
+        android:layout_width="match_parent"
+        android:layout_height="479dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addLayoutImageView" />
+
+    <EditText
+        android:theme="@style/exEditText"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/title_option"
+        app:layout_constraintStart_toStartOf="@+id/addLayoutTitle"
+        app:layout_constraintTop_toBottomOf="@+id/addLayoutTitle"
+        android:autofillHints="" />
+
+    <EditText
+        android:theme="@style/exEditText"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/note_option"
+        app:layout_constraintStart_toStartOf="@+id/addLayoutNote"
+        app:layout_constraintTop_toBottomOf="@+id/addLayoutNote"
+        android:autofillHints="" />
+
+    <TextView
+        android:textColor="@color/colorWhite"
+        android:id="@+id/addLayoutTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/title"
+        app:layout_constraintStart_toStartOf="@+id/addLayoutImageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:textColor="@color/colorWhite"
+        android:id="@+id/addLayoutNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/note"
+        app:layout_constraintStart_toStartOf="@+id/addLayoutTitle"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
