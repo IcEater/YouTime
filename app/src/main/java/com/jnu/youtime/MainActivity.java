@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 //        Cursor cursor = sqliteDatabase.query("user", new String[] { "id",
 //                "name" }, "id=?", new String[] { "1" }, null, null, null);
 
-        Cursor cursor = sqliteDatabase.query("MainList", new String[] {"id", "Time", "Tittle", "Note", "Image"},
+        Cursor cursor = sqliteDatabase.query("MainList", new String[] {"id", "Time", "Tittle", "Note", "Image", "Repeat"},
                 null, new String[] {}, null, null, null);
         // 参数1：（String）表名
         // 参数2：（String[]）要查询的列名
@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
                     cursor.getLong(cursor.getColumnIndex("Time")),
                     cursor.getString(cursor.getColumnIndex("Tittle")),
                     cursor.getString(cursor.getColumnIndex("Note")),
-                    bytetoBitmap(cursor.getBlob(cursor.getColumnIndex("Image")))
+                    byteToBitmap(cursor.getBlob(cursor.getColumnIndex("Image"))),
+                    cursor.getLong(cursor.getColumnIndex("Repeat"))
                     ));
         }
         cursor.close();
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         Resources res = getResources();
         Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.testimage);
 
-        YouTimeCounter test=new YouTimeCounter(1579881600+3600*8, "NEW YEAR", "It is a test", bmp);
+        YouTimeCounter test=new YouTimeCounter(1579881600+3600*8, "NEW YEAR", "It is a test", bmp, -1);
 
         Counters.add(test);
         Counters.add(test);
@@ -208,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
             values.put("Tittle", Counters.get(i).getTitle());
             values.put("Note", Counters.get(i).getNote());
             values.put("Image", bitmapToByte(Counters.get(i).getImage()));
+            values.put("Repeat", Counters.get(i).getRepeat());
             sqliteDatabase1.insert("MainList", null, values);
         }
         sqliteDatabase1.close();
@@ -223,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
 //        return data;
     }
 
-    public Bitmap bytetoBitmap(byte[] b) {
+    public Bitmap byteToBitmap(byte[] b) {
         Bitmap pic;
         if (b.length != 0) {
             pic=BitmapFactory.decodeByteArray(b, 0, b.length);

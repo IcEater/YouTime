@@ -43,7 +43,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
         //创建了数据库并创建一个叫records的表
         //SQLite数据创建支持的数据类型： 整型数据，字符串类型，日期类型，二进制的数据类型
-        String sql = "create table MainList(Id int primary key, Time long, Tittle String, Note String, Image Blob)";
+        String sql = "create table MainList(Id int primary key, Time long, Tittle String, Note String, Image Blob, Repeat long)";
         //execSQL用于执行SQL语句
         //完成数据库的创建
         db.execSQL(sql);

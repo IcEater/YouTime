@@ -47,6 +47,8 @@
         app:rippleColor="@color/colorDarkRed" />
 
     <ImageView
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:id="@+id/addLayoutImageView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -57,10 +59,9 @@
         app:srcCompat="@color/colorGRAYWhite" />
 
     <ListView
-        android:id="@+id/add_layout_listview"
+        android:id="@+id/addLayoutListView"
         android:layout_width="match_parent"
-        android:layout_height="479dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addLayoutImageView" />
@@ -68,13 +69,14 @@
     <EditText
         android:theme="@style/exEditText"
         android:textColor="@color/colorWhite"
-        android:id="@+id/editText"
+        android:id="@+id/addCounterTitleEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/title_option"
+        android:hint="@string/title_option"
+        android:textColorHint="@color/colorWhite"
         app:layout_constraintStart_toStartOf="@+id/addLayoutTitle"
         app:layout_constraintTop_toBottomOf="@+id/addLayoutTitle"
         android:autofillHints="" />
@@ -82,13 +84,14 @@
     <EditText
         android:theme="@style/exEditText"
         android:textColor="@color/colorWhite"
-        android:id="@+id/editText2"
+        android:id="@+id/addCounterNoteEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/note_option"
+        android:hint="@string/note_option"
+        android:textColorHint="@color/colorWhite"
         app:layout_constraintStart_toStartOf="@+id/addLayoutNote"
         app:layout_constraintTop_toBottomOf="@+id/addLayoutNote"
         android:autofillHints="" />
@@ -106,12 +109,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:textColor="@color/colorWhite"
         android:id="@+id/addLayoutNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="@string/note"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="@+id/addLayoutTitle"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/addCounterTitleEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>
