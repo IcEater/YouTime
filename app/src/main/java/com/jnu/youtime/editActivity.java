@@ -1,5 +1,6 @@
 package com.jnu.youtime;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,6 +33,7 @@ public class editActivity extends AppCompatActivity {
     TextView note;
     FloatingActionButton backFAB;
     FloatingActionButton dustbinFAB;
+    int index;
 
     long countDown=-1;
 
@@ -62,7 +64,7 @@ public class editActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        int index=getIntent().getIntExtra("counterIndex", -1);
+        index=getIntent().getIntExtra("counterIndex", -1);
 //        long time, String title, String note, Bitmap image, long repeat
 
         backFAB=findViewById(R.id.editLayoutBackFAB);
@@ -104,8 +106,30 @@ public class editActivity extends AppCompatActivity {
         dustbinFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                deleteDatabase("youtime_db");
+                Counters.remove(index);
+                insertToDB(Counters);
+                Toast.makeText(editActivity.this, "删除成功", Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(editActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
+    }
+    public void insertToDB(ArrayList<YouTimeCounter> list) {
+        MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(editActivity.this,"youtime_db",2);
+        SQLiteDatabase  sqliteDatabase1 = dbHelper1.getWritableDatabase();
+
+        for(int i=0;i <list.size();i ++)
+        {
+            ContentValues values = new ContentValues();
+            values.put("Id", i);
+            values.put("Time", Counters.get(i).getTime());
+            values.put("Tittle", Counters.get(i).getTitle());
+            values.put("Note", Counters.get(i).getNote());
+            values.put("Image", MainActivity.bitmapToByte(Counters.get(i).getImage()));
+            values.put("Repeat", Counters.get(i).getRepeat());
+            sqliteDatabase1.insert("MainList", null, values);
+        }
+        sqliteDatabase1.close();
     }
 }

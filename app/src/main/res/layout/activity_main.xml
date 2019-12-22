@@ -70,10 +70,12 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
                     android:id="@+id/navigationImageView"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    app:srcCompat="@mipmap/testimage" />
+                    app:srcCompat="@mipmap/mieru" />
 
                 <ListView
                     android:id="@+id/navigationListView"

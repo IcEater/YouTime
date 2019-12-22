@@ -203,6 +203,7 @@ public class addCounterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(addCounterActivity.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
 
