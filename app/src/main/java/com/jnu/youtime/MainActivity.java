@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
     private void init() {
-        deleteDatabase("youtime_db");
+//        deleteDatabase("youtime_db");
 
         drawerLayout=findViewById(R.id.mainDrawerLayout);
         mainListView=findViewById(R.id.mainListView);
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        addTestTimeCounter();
+//        addTestTimeCounter();
 
         MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(MainActivity.this,"youtime_db",2);
         SQLiteDatabase sqliteDatabase = dbHelper.getWritableDatabase();
@@ -143,6 +144,15 @@ public class MainActivity extends AppCompatActivity {
         navigationListView.setAdapter(adapterNavigation);
         /*  */
 
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent=new Intent(MainActivity.this, editActivity.class);
+                intent.putExtra("counterIndex", i);
+                startActivity(intent);
+            }
+        });
     }
 
     private SimpleAdapter setAdapter(ArrayList<YouTimeCounter> Counters) {
@@ -214,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         }
         sqliteDatabase1.close();
     }
-    public byte[] bitmapToByte(Bitmap bitmap) {
+    static public byte[] bitmapToByte(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
@@ -225,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 //        return data;
     }
 
-    public Bitmap byteToBitmap(byte[] b) {
+    static public Bitmap byteToBitmap(byte[] b) {
         Bitmap pic;
         if (b.length != 0) {
             pic=BitmapFactory.decodeByteArray(b, 0, b.length);

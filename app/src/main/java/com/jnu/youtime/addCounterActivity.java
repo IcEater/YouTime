@@ -1,7 +1,9 @@
 package com.jnu.youtime;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrix;
@@ -118,13 +120,13 @@ public class addCounterActivity extends AppCompatActivity {
 
         listView.setAdapter(new SimpleAdapter(addCounterActivity.this, lists, R.layout.add_layout_sublayout, from, to));
 
-        int index=getIntent().getIntExtra("numOfCounter", -1);
+        final int index=getIntent().getIntExtra("numOfCounter", -1);
 
         final TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
                 time=date.getTime();
-                Long te=new Long(time)/1000;
+                time=time/1000;
             }
         })
                 .build();
@@ -210,12 +212,32 @@ public class addCounterActivity extends AppCompatActivity {
                 title=editTitle.getText().toString();
                 if(title.isEmpty())
                 {
-                    Toast.makeText(addCounterActivity.this, "需要一个标题！", Toast.LENGTH_SHORT);
+
+                    Toast.makeText(addCounterActivity.this, "标题未设置！", Toast.LENGTH_SHORT).show();
                     return ;
                 }
                 else
                 {
+                    if(time*1000<System.currentTimeMillis())
+                    {
+                        Toast.makeText(addCounterActivity.this, "时间设置错误！", Toast.LENGTH_SHORT).show();
+                        return ;
+                    }
                     note=editNote.getText().toString();
+                    YouTimeCounter counter=new YouTimeCounter(time, title, note, bitmap, repeat);
+                    MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(addCounterActivity.this,"youtime_db",2);
+                    SQLiteDatabase sqliteDatabase = dbHelper1.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put("Id", index);
+                    values.put("Time", counter.getTime());
+                    values.put("Tittle", counter.getTitle());
+                    values.put("Note", counter.getNote());
+                    values.put("Image", MainActivity.bitmapToByte(counter.getImage()));
+                    values.put("Repeat", counter.getRepeat());
+                    sqliteDatabase.insert("MainList", null, values);
+                    sqliteDatabase.close();
+                    Intent intent=new Intent(addCounterActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });

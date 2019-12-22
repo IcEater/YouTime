@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:id="@+id/editLayoutImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorLucency" />
+
+    <TextView
+        android:textColor="@color/colorWhite"
+        android:id="@+id/editLayoutTitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginTop="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editLayoutImage"
+        android:autoSizeTextType="uniform"
+        />
+
+    <TextView
+        android:textColor="@color/colorWhite"
+        android:id="@+id/editLayoutTime"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/editLayoutImage"
+        app:layout_constraintStart_toStartOf="@+id/editLayoutImage"
+        app:layout_constraintTop_toBottomOf="@+id/editLayoutTitle"
+        android:autoSizeTextType="uniform"/>
+
+    <TextView
+        android:textColor="@color/colorWhite"
+        android:id="@+id/editLayoutNote"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editLayoutTime"
+        android:autoSizeTextType="uniform"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editLayoutBackFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@mipmap/iceater_icon_back_white"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorRed"
+        app:elevation="18dp"
+        app:fabSize="mini"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="35dp"
+        app:pressedTranslationZ="22dp"
+        app:rippleColor="@color/colorDarkRed" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editLayoutDustbin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@mipmap/iceater_icon_dustbin_white"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorRed"
+        app:elevation="18dp"
+        app:fabSize="mini"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="25dp"
+        app:pressedTranslationZ="22dp"
+        app:rippleColor="@color/colorDarkRed" />
+</androidx.constraintlayout.widget.ConstraintLayout>
