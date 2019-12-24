@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +19,6 @@ import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bigkoo.pickerview.TimePickerView;
@@ -35,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class addCounterActivity extends AppCompatActivity {
+public class AddCounterActivity extends AppCompatActivity {
 
     FloatingActionButton backButton;
     FloatingActionButton confirmButton;
@@ -118,7 +116,7 @@ public class addCounterActivity extends AppCompatActivity {
         String []from={"image", "text"};
         int []to=new int[]{R.id.addCounterListImageView, R.id.addCounterListTextView};
 
-        listView.setAdapter(new SimpleAdapter(addCounterActivity.this, lists, R.layout.add_layout_sublayout, from, to));
+        listView.setAdapter(new SimpleAdapter(AddCounterActivity.this, lists, R.layout.add_layout_sublayout, from, to));
 
         final int index=getIntent().getIntExtra("numOfCounter", -1);
 
@@ -142,7 +140,7 @@ public class addCounterActivity extends AppCompatActivity {
                         pvTime.show();
                         break;
                     case 1:
-                        PopupMenu popupMenu = new PopupMenu(addCounterActivity.this, listView.getChildAt(i));
+                        PopupMenu popupMenu = new PopupMenu(AddCounterActivity.this, listView.getChildAt(i));
                         popupMenu.getMenuInflater().inflate(R.menu.repect_popup_menu,popupMenu.getMenu());
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
@@ -201,7 +199,7 @@ public class addCounterActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(addCounterActivity.this, MainActivity.class);
+                Intent intent=new Intent(AddCounterActivity.this, MainActivity.class);
                 startActivity(intent);
 
             }
@@ -214,19 +212,19 @@ public class addCounterActivity extends AppCompatActivity {
                 if(title.isEmpty())
                 {
 
-                    Toast.makeText(addCounterActivity.this, "标题未设置！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddCounterActivity.this, "标题未设置！", Toast.LENGTH_SHORT).show();
                     return ;
                 }
                 else
                 {
                     if(time*1000<System.currentTimeMillis())
                     {
-                        Toast.makeText(addCounterActivity.this, "时间设置错误！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCounterActivity.this, "时间设置错误！", Toast.LENGTH_SHORT).show();
                         return ;
                     }
                     note=editNote.getText().toString();
                     YouTimeCounter counter=new YouTimeCounter(time, title, note, bitmap, repeat);
-                    MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(addCounterActivity.this,"youtime_db",2);
+                    MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(AddCounterActivity.this,"youtime_db",2);
                     SQLiteDatabase sqliteDatabase = dbHelper1.getWritableDatabase();
                     ContentValues values = new ContentValues();
                     values.put("Id", index);
@@ -237,7 +235,7 @@ public class addCounterActivity extends AppCompatActivity {
                     values.put("Repeat", counter.getRepeat());
                     sqliteDatabase.insert("MainList", null, values);
                     sqliteDatabase.close();
-                    Intent intent=new Intent(addCounterActivity.this, MainActivity.class);
+                    Intent intent=new Intent(AddCounterActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
             }

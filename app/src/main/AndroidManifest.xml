@@ -14,9 +14,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".addCounterActivity">
+        <activity android:name=".AddCounterActivity">
         </activity>
-        <activity android:name=".editActivity">
+        <activity android:name=".EditActivity">
         </activity>
     </application>
 

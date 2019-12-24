@@ -4,18 +4,15 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,7 +20,7 @@ import com.jnu.youtime.data.YouTimeCounter;
 
 import java.util.ArrayList;
 
-public class editActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity {
 
     ArrayList<YouTimeCounter> Counters;
 
@@ -47,7 +44,7 @@ public class editActivity extends AppCompatActivity {
 
 
         Counters=new ArrayList<>();
-        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(editActivity.this,"youtime_db",2);
+        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(EditActivity.this,"youtime_db",2);
         SQLiteDatabase sqliteDatabase = dbHelper.getWritableDatabase();
 
         Cursor cursor = sqliteDatabase.query("MainList", new String[] {"id", "Time", "Tittle", "Note", "Image", "Repeat"},
@@ -98,7 +95,7 @@ public class editActivity extends AppCompatActivity {
         backFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(editActivity.this, MainActivity.class);
+                Intent intent=new Intent(EditActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -109,14 +106,14 @@ public class editActivity extends AppCompatActivity {
                 deleteDatabase("youtime_db");
                 Counters.remove(index);
                 insertToDB(Counters);
-                Toast.makeText(editActivity.this, "删除成功", Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(editActivity.this, MainActivity.class);
+                Toast.makeText(EditActivity.this, "删除成功", Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(EditActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
     }
     public void insertToDB(ArrayList<YouTimeCounter> list) {
-        MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(editActivity.this,"youtime_db",2);
+        MySQLiteOpenHelper dbHelper1 = new MySQLiteOpenHelper(EditActivity.this,"youtime_db",2);
         SQLiteDatabase  sqliteDatabase1 = dbHelper1.getWritableDatabase();
 
         for(int i=0;i <list.size();i ++)
